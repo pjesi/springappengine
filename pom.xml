@@ -9,7 +9,7 @@
     <url>http://github.com/pjesi/springappengine</url>
     <properties>
         <spring.version>2.5.6</spring.version>
-        <gae.version>1.2.1</gae.version>
+        <gae.version>1.2.2</gae.version>
     </properties>
 
 
