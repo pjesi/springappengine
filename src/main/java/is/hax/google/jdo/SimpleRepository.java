@@ -16,11 +16,9 @@ import is.hax.autobox.Entity;
 import is.hax.autobox.Function;
 
 /**
- * Created by IntelliJ IDEA.
  * User: pjesi
  * Date: Oct 15, 2009
  * Time: 10:14:00 PM
- * To change this template use File | Settings | File Templates.
  */
 @Service
 public class SimpleRepository<T extends Entity> {
@@ -57,7 +55,7 @@ public class SimpleRepository<T extends Entity> {
 
     }
 
-    public T get(Class<T> type, Long id) {
+    public T get(Class<T> type, Object id) {
 
         return jdoTemplate.getObjectById(type, id);
 
