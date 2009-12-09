@@ -8,8 +8,8 @@
     <name>springappengine</name>
     <url>http://github.com/pjesi/springappengine</url>
     <properties>
-        <spring.version>2.5.6</spring.version>
-        <gae.version>1.2.2</gae.version>
+        <spring.version>3.0.0.RC1</spring.version>
+        <gae.version>1.2.1</gae.version>
     </properties>
 
 
@@ -42,6 +42,13 @@
         </dependency>
 
 
+
+        <dependency>
+            <groupId>is.hax</groupId>
+            <artifactId>autobox</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
          <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
@@ -66,11 +73,31 @@
             <version>${spring.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>compile</scope>
+        </dependency>
+
+
+          <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo2-api</artifactId>
+            <version>2.3-20090302111651</version>
         </dependency>
     </dependencies>
 
