@@ -61,6 +61,48 @@ public class SimpleRepository {
 
     }
 
+
+    public <T extends Entity> T update(final Class<T> type,
+                                       final Object id,
+                                       final Function<T, T> function) {
+
+        return jdoTemplate.execute(new JdoCallback<T>() {
+            public T doInJdo(PersistenceManager pm) throws JDOException {
+                @SuppressWarnings("unchecked")
+                T persistent = pm.getObjectById(type, id);
+                return function.call(persistent);
+            }
+        });
+
+    }
+
+    /* experimental */
+    public <T extends Entity, V extends Entity> void update(final Class<T> tType,
+                                                            final Object tId,
+                                                            final Class<V> vType,
+                                                            final Object vId,
+                                                            final Function<T, T> functionT,
+                                                            final Function<V, V> functionV) {
+
+
+        jdoTemplate.execute(new JdoCallback<T>() {
+            public T doInJdo(PersistenceManager pm) throws JDOException {
+
+                @SuppressWarnings("unchecked")
+                T persistent = pm.getObjectById(tType, tId);
+                functionT.call(persistent);
+
+                @SuppressWarnings("unchecked")
+                V persistentV = pm.getObjectById(vType, vId);
+                functionV.call(persistentV);
+
+                return null;
+            }
+        });
+
+    }
+
+
     public <T extends Entity> T update(final T t, final Function<T, T> function) {
 
         return jdoTemplate.execute(new JdoCallback<T>() {
@@ -74,7 +116,8 @@ public class SimpleRepository {
     }
 
     /* experimental */
-    public <T extends Entity, V extends Entity> void update(final T t, final V v,
+    public <T extends Entity, V extends Entity> void update(final T t,
+                                                            final V v,
                                                             final Function<T, T> functionT,
                                                             final Function<V, V> functionV) {
 
