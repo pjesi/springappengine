@@ -21,7 +21,7 @@ import is.hax.autobox.Function;
  * Time: 10:14:00 PM
  */
 @Service
-public class SimpleRepository<T extends Entity> {
+public class SimpleRepository {
 
 
     protected JdoTemplate jdoTemplate;
@@ -48,20 +48,20 @@ public class SimpleRepository<T extends Entity> {
         return collection;
     }
 
-    
+
     public <T extends Entity> T store(T t) {
 
         return jdoTemplate.makePersistent(t);
 
     }
 
-    public T get(Class<T> type, Object id) {
+    public <T> T get(Class<T> type, Object id) {
 
         return jdoTemplate.getObjectById(type, id);
 
     }
 
-    public T update(final T t, final Function<T,T> function) {
+    public <T extends Entity> T update(final T t, final Function<T, T> function) {
 
         return jdoTemplate.execute(new JdoCallback<T>() {
             public T doInJdo(PersistenceManager pm) throws JDOException {
@@ -73,9 +73,33 @@ public class SimpleRepository<T extends Entity> {
 
     }
 
+    /* experimental */
+    public <T extends Entity, V extends Entity> void update(final T t, final V v,
+                                                            final Function<T, T> functionT,
+                                                            final Function<V, V> functionV) {
+
+
+        jdoTemplate.execute(new JdoCallback<T>() {
+            public T doInJdo(PersistenceManager pm) throws JDOException {
+
+                @SuppressWarnings("unchecked")
+                T persistent = (T) pm.getObjectById(t.getClass(), t.getId());
+                functionT.call(persistent);
+
+                @SuppressWarnings("unchecked")
+                V persistentV = (V) pm.getObjectById(v.getClass(), v.getId());
+                functionV.call(persistentV);
+
+                return null;
+            }
+        });
+
+    }
+
+
     public <T> Collection<T> query(final Class<T> type,
-                               final String filter,
-                               final Map<String, ?> params) {
+                                   final String filter,
+                                   final Map<String, ?> params) {
 
         @SuppressWarnings("unchecked")
         Collection<T> collection = jdoTemplate.executeFind(new JdoCallback() {
@@ -95,5 +119,8 @@ public class SimpleRepository<T extends Entity> {
 
     }
 
+    public JdoTemplate getJdoTemplate() {
+        return jdoTemplate;
+    }
 }
 
